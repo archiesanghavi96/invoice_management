@@ -1,0 +1,93 @@
+{% extends 'main.html' %}
+{% block content%}
+{% include 'navbar.html' %}
+	<form method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		{%if errors%}
+			<h3>{{errors}}</h3>
+		{%else%}
+
+		<div>
+			<table>			
+			<tr>
+				<td>Upload Invoice:</td>
+				<td><input type="file" name="invoice_file" id="i_file" required></td>
+			</tr>
+
+		</table>
+		</div>
+
+
+	
+		<div id="detail" style="display:none;">
+			<table>
+				<tr>
+					<td><label for="txt1">Invoice Number:</label></td>
+					<td><input type="text" id="txt1" name="invoice_number" required></td>
+				</tr>
+				<tr>
+					<td><label for="txt2">Vendor Name:</label></td>
+					<td><input type="text" id="txt2" name="v_name" required></td>
+				</tr>
+				<tr>
+					<td><label for="date1">Invoice Date:</label></td>
+					<td><input type="date" id="date1" name="invoice_date" required></td>
+				</tr>			
+
+				{% if url%}
+				<tr>
+					<td><a href="{{url}}">Link to original Invoice</a></td>
+				</tr>
+				<tr> 
+					<td><img src="{{link}}">IMGage</a></td>
+				</tr> 
+				{% endif %}
+			</table>
+			<h3>List Of Items</h3>					
+			<table>
+				<thead>
+					<th hidden="true">ID</th>
+					<th></th>
+					<th>Name</th>
+					<th>Quantity</th>
+					<th>Rate</th>
+					<th>Description</th>
+				</thead>
+				<tbody>
+					{% for data in items %}
+					<tr>
+						<td hidden="true">{{data.id}}</td>
+						<td><input type="checkbox" name="items" value={{data.id}}></td>
+						<td>{{data.name}}</td>
+						<td>{{data.available_quantity}}</td>
+						<td>{{data.rate}}</td>
+						<td>{{data.description}}</td>
+					</tr>
+					{%endfor%}
+				</tbody>
+			</table>
+			<input class="btn btn-primary" type="submit" value="Submit Invoice">
+		</div>
+		{%endif%}
+	</form>
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#i_file").on("change",function(){
+		const size =  (this.files[0].size / 1024 / 1024).toFixed(2); 
+  
+        if (size > 2) { 
+        	alert("File must be less than size of 2 MB")
+            $("#btn_submit").css("visibility","hidden")
+        }
+        else{
+	        if($("#i_file").val() != '')
+		  		{
+		 			$("#detail").css("display","block")
+				}
+			}
+	}) 	
+});
+</script>
+{% endblock%}

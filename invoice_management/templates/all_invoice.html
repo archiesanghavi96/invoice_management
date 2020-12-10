@@ -1,0 +1,34 @@
+<% extends 'main.html' %>
+{% block content%}
+{% include 'navbar.html' %}
+
+	{% csrf_token %}
+	<table>
+		<thead>
+			<th>User</th>
+			<th>Invoice No</th>
+			<th>Vendor Name</th>
+			<th>Date</th>
+			<th>Link</th>
+		</thead>
+
+		<tbody>
+			{% for data in invoices %}
+				<tr>
+					<td>{{data.user.email}}</td>
+			
+			
+					<td>{{data.invoice_no}}</td>
+			
+					<td>{{data.vendor_name}}</td>
+			
+					<td>{{data.invoice_date}}</td>
+		
+					<td>{{data.pdf}}</td>
+				</tr>
+				
+			{% endfor %}
+		</tbody>
+	</table>
+{% endblock%}
+

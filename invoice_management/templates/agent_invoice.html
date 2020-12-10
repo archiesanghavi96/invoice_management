@@ -1,0 +1,33 @@
+{% extends 'main.html' %}
+{% block content%}
+{% include 'navbar.html' %}
+
+	{% csrf_token %}
+	<table>
+		<thead>
+			<th>Invoice No</th>
+			<th>Vendor Name</th>
+			<th>Date</th>
+			<th>Link</th>
+		</thead>
+
+		<tbody>
+			{% for data in invoices %}
+				<tr>
+					<td>{{data.invoice_no}}</td>
+				
+				
+					<td>{{data.vendor_name}}</td>
+				
+				
+					<td>{{data.invoice_date}}</td>
+				
+				
+					<td><a href="{{data.pdf.url}}">{{data.pdf}}</a></td>
+				</tr>
+				
+			{% endfor %}
+		</tbody>
+	</table>
+	<a class="btn btn-primary" href="{% url 'generate_invoice' %}">Create New Invoice</a>
+{% endblock%}
